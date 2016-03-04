@@ -9,6 +9,7 @@ import java.util.*;
 public class ReadFiles {
     private Map <String, Integer> trainFreq;
     private String directoryName;
+    private int fileCount = 0;
 
     public ReadFiles(String directoryName, Map <String, Integer> trainFreq){
         this.directoryName=directoryName;
@@ -37,11 +38,26 @@ public class ReadFiles {
                     }
                     //System.out.println(words[0]);
                 }
-
+                fileCount++;
             }
         }catch (IOException e){
             e.printStackTrace();
         }
         return trainFreq;
     }
+
+    public int getCount(){
+        return fileCount;
+    }
+
+    public Map <String, Double> getProbabilities(Map<String, Integer> map){
+        Map <String, Double> probabilities = new TreeMap<>();
+        int mapSize=map.size();
+        for(int i=0;i<mapSize;i++){
+            probabilities.put(map.keySet().toArray()[i].toString(), map.get(map.keySet().toArray()[i])/(double) getCount());
+        }
+        return probabilities;
+
+    }
+
 }
