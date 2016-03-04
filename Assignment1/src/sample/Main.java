@@ -29,6 +29,10 @@ public class Main extends Application {
         ReadFiles trainSpam= new ReadFiles("./data/train/spam", trainSpamFreq);
         trainSpamFreq = trainSpam.readFiles(new File("./data/train/spam"), trainSpamFreq);
 
+        //probabilities
+        Map hamProbability = trainHam.getProbabilities(trainHamFreq);
+
+        Map spamProbability = trainSpam.getProbabilities(trainSpamFreq);
 
         //testing
         DirectoryChooser directoryChooser = new DirectoryChooser();
