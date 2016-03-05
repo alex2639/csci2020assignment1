@@ -1,6 +1,8 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -50,18 +52,6 @@ public class Main extends Application {
         Testing file=new Testing(spamWords);
         double probabilitySpam;
         table = new TableView<>();
-
-        //ReadFiles test = new ReadFiles(mainDirectory.getName());
-        for(File fileEntry:mainDirectory.listFiles()){
-            probabilitySpam=file.spamFile(fileEntry,spamWords);
-            TestFile testFile=new TestFile(fileEntry.getName(),probabilitySpam,mainDirectory.getName());
-
-
-        }
-
-        primaryStage.setTitle("Spam Detector 3000");
-
-
         TableColumn<TestFile,String> fileColumn = null;
         fileColumn = new TableColumn<>("File");
         fileColumn.setMinWidth(100);
@@ -80,6 +70,20 @@ public class Main extends Application {
         table.getColumns().add(fileColumn);
         table.getColumns().add(classColumn);
         table.getColumns().add(probabilityColumn);
+
+        ObservableList<TestFile> testFiles= FXCollections.observableArrayList();
+
+        //ReadFiles test = new ReadFiles(mainDirectory.getName());
+        for(File fileEntry:mainDirectory.listFiles()){
+            probabilitySpam=file.spamFile(fileEntry,spamWords);
+            TestFile testFile=new TestFile(fileEntry.getName(),probabilitySpam,mainDirectory.getName());
+            testFiles.add(testFile);
+            table.getItems().add(testFile);
+        }
+
+        primaryStage.setTitle("Spam Detector 3000");
+
+
 
         GridPane accuracy = new GridPane();
 
