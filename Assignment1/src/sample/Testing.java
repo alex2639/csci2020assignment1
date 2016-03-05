@@ -3,6 +3,7 @@ package sample;
 import java.io.*;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Testing {
     private Map<String, Double> spamWords;
@@ -15,7 +16,8 @@ public class Testing {
         double rau=0;
         try{
             BufferedReader in;
-            String line;
+            String word;
+            /*
             in = new BufferedReader(new FileReader(file));
             while ((line=in.readLine())!=null){
                 String[] words= line.split(" ");
@@ -26,10 +28,28 @@ public class Testing {
                     }
                 }
             }
+            */
+            Scanner scan=new Scanner(file);
+            while (scan.hasNext()){
+                word=scan.next();
+                if(isWord(word)){
+                    if(spamWords.containsKey(word)){
+                        rau=rau+(Math.log(1-spamWords.get(word))-Math.log(spamWords.get(word)));
+                    }
+                }
+            }
         }catch (IOException e){
             e.printStackTrace();
         }
         double spamProbability=1/(1+Math.pow(Math.E,rau));
         return spamProbability;
+    }
+
+    private boolean isWord(String str){
+        String pattern = "^[a-zA-Z]*$";
+        if (str.matches(pattern)){
+            return true;
+        }
+        return false;
     }
 }

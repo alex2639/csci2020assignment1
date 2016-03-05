@@ -54,7 +54,9 @@ public class Main extends Application {
         //ReadFiles test = new ReadFiles(mainDirectory.getName());
         for(File fileEntry:mainDirectory.listFiles()){
             probabilitySpam=file.spamFile(fileEntry,spamWords);
-            
+            TestFile testFile=new TestFile(fileEntry.getName(),probabilitySpam,mainDirectory.getName());
+
+
         }
 
         primaryStage.setTitle("Spam Detector 3000");

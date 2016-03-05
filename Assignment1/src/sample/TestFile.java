@@ -2,9 +2,6 @@ package sample;
 
 import java.text.DecimalFormat;
 
-/**
- * Created by pkmn-master on 03/03/16.
- */
 public class TestFile {
     private String filename;
     private double spamProbability;
