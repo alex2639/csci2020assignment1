@@ -60,6 +60,7 @@ public class Main extends Application {
 
         Testing file=new Testing(spamWords);
         double probabilitySpam;
+
         table = new TableView<>();
         TableColumn<TestFile,String> fileColumn = null;
         fileColumn = new TableColumn<>("File");
@@ -91,27 +92,35 @@ public class Main extends Application {
 
         //ReadFiles test = new ReadFiles(mainDirectory.getName());
         for(File fileEntry:mainDirectory.listFiles()){
-            probabilitySpam=file.spamFile(fileEntry,spamWords);
-            TestFile testFile=new TestFile(fileEntry.getName(),probabilitySpam,mainDirectory.getName());
-            testFiles.add(testFile);
-            table.getItems().add(testFile);
+            if(fileEntry.isDirectory()){
+                for(File subFile:fileEntry.listFiles()){
+                    probabilitySpam=file.spamFile(subFile,spamWords);
+                    TestFile testFile=new TestFile(subFile.getName(),probabilitySpam,fileEntry.getName());
+                    testFiles.add(testFile);
+                    table.getItems().add(testFile);
 
-            if(probabilitySpam<.5 && mainDirectory.getName().equalsIgnoreCase("ham") ||probabilitySpam>.5 && mainDirectory.getName().equalsIgnoreCase("spam")){
-                right++;
+                    if(probabilitySpam<.5 && fileEntry.getName().equalsIgnoreCase("ham") ||probabilitySpam>.5 && fileEntry.getName().equalsIgnoreCase("spam")){
+                        right++;
+                    }
+                    value=value+probabilitySpam;
+                    count++;
+                }
             }
-            value=value+probabilitySpam;
-            count++;
+
         }
         values=new double[count];
         double mean=value/count;
         double difference=0;
         int index=0;
         for(File fileEntry:mainDirectory.listFiles()){
-            probabilitySpam=file.spamFile(fileEntry,spamWords);
-            values[index]=probabilitySpam;
-            difference=difference+Math.abs(mean-values[index]);
-            index++;
-
+            if(fileEntry.isDirectory()){
+                for(File subFile:fileEntry.listFiles()){
+                    probabilitySpam=file.spamFile(subFile,spamWords);
+                    values[index]=probabilitySpam;
+                    difference=difference+Math.abs(mean-values[index]);
+                    index++;
+                }
+            }
         }
         double precision=1-(difference/(count));
         primaryStage.setTitle("Spam Detector 3000");

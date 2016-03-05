@@ -23,13 +23,6 @@ public class ReadFiles {
                     if(isWord(word)){
                         if (!freq.containsKey(word)){
                             freq.put(word,1);
-                            /*
-                            if(!trainFreq.containsKey(word)){
-                                trainFreq.put(word,1);
-                            } else {
-                                trainFreq.put(word,trainFreq.get(word)+1);
-                            }
-                            */
                         } else{
                             freq.put(word,freq.get(word)+1);
                         }
