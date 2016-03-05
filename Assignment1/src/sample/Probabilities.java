@@ -16,9 +16,9 @@ public class Probabilities {
 
     public Map<String, Double> spamProbability(Map<String, Double> hamWord, Map<String, Double> spamWord){
         Map<String, Double> spam = new TreeMap<>();
-        
-        return null;
+        for (int i=0;i<spamWord.size();i++){
+            spam.put(spamWord.keySet().toArray()[i].toString(),spamWord.get(spamWord.keySet().toArray()[i].toString())/(spamWord.get(spamWord.keySet().toArray()[i].toString())+spamWord.get(hamWord.keySet().toArray()[i].toString())));
+        }
+        return spam;
     }
-
-
 }
