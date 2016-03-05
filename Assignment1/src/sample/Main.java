@@ -47,11 +47,18 @@ public class Main extends Application {
         directoryChooser.setInitialDirectory(new File("./data"));
         File mainDirectory = directoryChooser.showDialog(primaryStage);
 
+        Testing file=new Testing(spamWords);
+        double probabilitySpam;
+        table = new TableView<>();
+
         //ReadFiles test = new ReadFiles(mainDirectory.getName());
+        for(File fileEntry:mainDirectory.listFiles()){
+            probabilitySpam=file.spamFile(fileEntry,spamWords);
+            
+        }
 
         primaryStage.setTitle("Spam Detector 3000");
 
-        table = new TableView<>();
 
         TableColumn<TestFile,String> fileColumn = null;
         fileColumn = new TableColumn<>("File");
