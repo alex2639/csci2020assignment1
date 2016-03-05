@@ -24,15 +24,23 @@ public class Main extends Application {
         Map<String, Integer> trainHamFreq = new TreeMap<>();
         ReadFiles trainHam= new ReadFiles("./data/train/ham", trainHamFreq);
         trainHamFreq = trainHam.readFiles(new File("./data/train/ham"), trainHamFreq);
+        System.out.println("1");
 
         Map<String, Integer> trainSpamFreq = new TreeMap<>();
         ReadFiles trainSpam= new ReadFiles("./data/train/spam", trainSpamFreq);
         trainSpamFreq = trainSpam.readFiles(new File("./data/train/spam"), trainSpamFreq);
+        System.out.println("1");
 
-        //probabilities
-        Map hamProbability = trainHam.getProbabilities(trainHamFreq);
+        //probability words
+        Map hamWordFolder = trainHam.getProbabilities(trainHamFreq);
+        System.out.println("1");
 
-        Map spamProbability = trainSpam.getProbabilities(trainSpamFreq);
+
+        Map spamWordFolder = trainSpam.getProbabilities(trainSpamFreq);
+
+        Probabilities spam=new Probabilities();
+
+        //Map spamWords =
 
         //testing
         DirectoryChooser directoryChooser = new DirectoryChooser();
