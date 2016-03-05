@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -13,6 +14,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class Main extends Application {
@@ -22,6 +24,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        DecimalFormat df = new DecimalFormat("0.00000");
+
         //training
         Map<String, Integer> trainHamFreq = new TreeMap<>();
         int hamFileCount=0;
@@ -80,21 +84,49 @@ public class Main extends Application {
 
         ObservableList<TestFile> testFiles= FXCollections.observableArrayList();
 
+        int count=0;
+        int right=0;
+        double value=0;
+        double[]values;
+
         //ReadFiles test = new ReadFiles(mainDirectory.getName());
         for(File fileEntry:mainDirectory.listFiles()){
             probabilitySpam=file.spamFile(fileEntry,spamWords);
             TestFile testFile=new TestFile(fileEntry.getName(),probabilitySpam,mainDirectory.getName());
             testFiles.add(testFile);
             table.getItems().add(testFile);
-        }
 
+            if(probabilitySpam<.5 && mainDirectory.getName().equalsIgnoreCase("ham") ||probabilitySpam>.5 && mainDirectory.getName().equalsIgnoreCase("spam")){
+                right++;
+            }
+            value=value+probabilitySpam;
+            count++;
+        }
+        values=new double[count];
+        double mean=value/count;
+        double difference=0;
+        int index=0;
+        for(File fileEntry:mainDirectory.listFiles()){
+            probabilitySpam=file.spamFile(fileEntry,spamWords);
+            values[index]=probabilitySpam;
+            difference=difference+Math.abs(mean-values[index]);
+            index++;
+
+        }
+        double precision=1-(difference/(count));
         primaryStage.setTitle("Spam Detector 3000");
 
-        GridPane accuracy = new GridPane();
+        GridPane stats = new GridPane();
+        double accuracy=(double) right/count;
+        Label accuracyLabel=new Label("Accuracy: "+df.format(accuracy));
+        stats.add(accuracyLabel,0,0);
+
+        Label precisionLabel=new Label("Precision: "+df.format(precision));
+        stats.add(precisionLabel,0,1);
 
         layout = new BorderPane();
         layout.setCenter(table);
-        layout.setBottom(accuracy);
+        layout.setBottom(stats);
 
         Scene scene = new Scene(layout, 600, 600);
         primaryStage.setScene(scene);
