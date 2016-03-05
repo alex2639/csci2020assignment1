@@ -23,8 +23,19 @@ public class Probabilities {
         */
         Set<String> keys=spamWord.keySet();
         Iterator<String> keyIterator=keys.iterator();
+        //System.out.println("spam");
+        String word;
         while (keyIterator.hasNext()){
-            spam.put(keyIterator.next(),spamWord.get(keyIterator.next())/(spamWord.get(keyIterator.next()+hamWord.get(keyIterator.next()))));
+            word=keyIterator.next();
+            //System.out.println(keyIterator.next());
+            //System.out.println(spamWord.get(keyIterator.next()));
+            //System.out.println(hamWord.get(keyIterator.next()));
+            if(!hamWord.containsKey(word)){
+                spam.put(word,spamWord.get(word)/spamWord.get(word));
+            } else{
+                spam.put(word,spamWord.get(word)/(spamWord.get(word)+ hamWord.get(word)));
+            }
+
         }
         return spam;
     }

@@ -24,21 +24,26 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         //training
         Map<String, Integer> trainHamFreq = new TreeMap<>();
+        int hamFileCount=0;
+        for (File fileEntry:new File("./data/train/ham").listFiles()){
+            hamFileCount++;
+        }
         ReadFiles trainHam= new ReadFiles("./data/train/ham", trainHamFreq);
         trainHamFreq = trainHam.readFiles(new File("./data/train/ham"), trainHamFreq);
-        System.out.println("1");
+
+        int spamFileCount=0;
+        for (File fileEntry:new File("./data/train/spam").listFiles()){
+            spamFileCount++;
+        }
 
         Map<String, Integer> trainSpamFreq = new TreeMap<>();
         ReadFiles trainSpam= new ReadFiles("./data/train/spam", trainSpamFreq);
         trainSpamFreq = trainSpam.readFiles(new File("./data/train/spam"), trainSpamFreq);
-        System.out.println("1");
 
         //probability words
-        Map hamWordFolder = trainHam.getProbabilities(trainHamFreq);
-        System.out.println("1");
+        Map hamWordFolder = trainHam.getProbabilities(trainHamFreq,hamFileCount);
 
-
-        Map spamWordFolder = trainSpam.getProbabilities(trainSpamFreq);
+        Map spamWordFolder = trainSpam.getProbabilities(trainSpamFreq,spamFileCount);
 
         Probabilities spam=new Probabilities(hamWordFolder,spamWordFolder);
 
@@ -62,10 +67,12 @@ public class Main extends Application {
         classColumn.setMinWidth(100);
         classColumn.setCellValueFactory(new PropertyValueFactory<>("actualClass"));
 
-        TableColumn<TestFile,Double> probabilityColumn = null;
+        //TableColumn<TestFile,Double> probabilityColumn = null;
+        TableColumn<TestFile,String> probabilityColumn = null;
         probabilityColumn = new TableColumn<>("Spam probability");
-        probabilityColumn.setMinWidth(100);
-        probabilityColumn.setCellValueFactory(new PropertyValueFactory<>("spamProbability"));
+        probabilityColumn.setMinWidth(200);
+        //probabilityColumn.setCellValueFactory(new PropertyValueFactory<>("spamProbability"));
+        probabilityColumn.setCellValueFactory(new PropertyValueFactory<>("spamProbRounded"));
 
         table.getColumns().add(fileColumn);
         table.getColumns().add(classColumn);
@@ -83,11 +90,7 @@ public class Main extends Application {
 
         primaryStage.setTitle("Spam Detector 3000");
 
-
-
         GridPane accuracy = new GridPane();
-
-
 
         layout = new BorderPane();
         layout.setCenter(table);
