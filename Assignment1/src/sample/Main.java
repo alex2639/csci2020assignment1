@@ -38,9 +38,9 @@ public class Main extends Application {
 
         Map spamWordFolder = trainSpam.getProbabilities(trainSpamFreq);
 
-        Probabilities spam=new Probabilities();
+        Probabilities spam=new Probabilities(hamWordFolder,spamWordFolder);
 
-        //Map spamWords =
+        Map spamWords = spam.spamProbability(hamWordFolder,spamWordFolder);
 
         //testing
         DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -84,7 +84,6 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
         launch(args);
