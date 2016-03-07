@@ -13,7 +13,7 @@ public class Testing {
     }
 
     public double spamFile(File file, Map<String, Double> spamWords){
-        double rau=0;
+        double n=0;
         try{
             String word;
             Scanner scan=new Scanner(file);//scans every word of file
@@ -21,14 +21,14 @@ public class Testing {
                 word=scan.next();
                 if(isWord(word)){
                     if(spamWords.containsKey(word)){//if the word is in the spam map
-                        rau=rau+(Math.log(1-spamWords.get(word))-Math.log(spamWords.get(word)));
+                        n=n+(Math.log(1-spamWords.get(word))-Math.log(spamWords.get(word)));
                     }
                 }
             }
         }catch (IOException e){
             e.printStackTrace();
         }
-        double spamProbability=1/(1+Math.pow(Math.E,rau));//calculate spam probability of file
+        double spamProbability=1/(1+Math.pow(Math.E,n));//calculate spam probability of file
         return spamProbability;
     }
 
