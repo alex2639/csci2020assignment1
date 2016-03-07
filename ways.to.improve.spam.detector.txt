@@ -1,0 +1,12 @@
+Ways to improve the spam detector
+
+Have certain words have more of an effect on determining likelihood of spam.
+For example, the words "buy" , "sale" , "free" are associated with advertisements which is a form of spam.
+If such words were to appear in an e-mail, there would be a higher chance of such e-mail being spam
+compared to other words that may appear.
+
+Determine how the words are used in context. For instance, the word "buy". The word can be used in
+different context. For advertisements which is associated with spam, "Buy now, and save 50%".
+In ham messages, "Go to the grocery store and buy some eggs". The words used in a certain context would
+have a lower chance of being spam while the same word being used in a different context would have a
+higher chance of being spam.
