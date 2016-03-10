@@ -64,7 +64,7 @@ public class Main extends Application {
         table = new TableView<>();
         TableColumn<TestFile,String> fileColumn = null;
         fileColumn = new TableColumn<>("File");
-        fileColumn.setMinWidth(100);
+        fileColumn.setMinWidth(200);
         fileColumn.setCellValueFactory(new PropertyValueFactory<>("filename"));
 
         TableColumn<TestFile,String> classColumn = null;
